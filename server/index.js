@@ -71,6 +71,19 @@ app.get('/api/leaderboard', async (req, res) => {
     }
 });
 
+app.get('/api/scores/:id', async (req, res) => {
+    try {
+        const userScore = await Score.findOne({ id: req.params.id });
+        if (userScore) {
+            res.json(userScore);
+        } else {
+            res.json({ totalScore: 0, totalSKR: 0, gamesPlayed: 0 });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
